@@ -1,0 +1,8 @@
+Search Word in LTSV log in real time
+
+usage:
+
+sudo ./logstat.pl -f=200 -l=/var/log/apache2/access.log {items .... }
+
+
+
