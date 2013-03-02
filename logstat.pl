@@ -11,8 +11,7 @@ GetOptions( \%opts, qw( find=s log=s ) );
 
 my @items = @ARGV;
 
-my $word = $opts{find} || undef;;
-my $file_name = $opts{log} || '/var/log/apache2/access.log';
+my $word = $opts{find} || undef;
 
 my $finding_word;
 if (defined($word)) {
@@ -21,21 +20,26 @@ if (defined($word)) {
 	$finding_word =  undef;
 }
 
-print "log:$file_name\n";
-print "find word: $word\n" if $word;
-if (@items){
-	print "items:";
-	for (@items) {
-		print "$_ ";
-	}
-	print "\n";
-}
+my $file_name = $opts{log} || '/var/log/apache2/access.log';
+
+die "Can't access $file_name, Check the file name" unless -e $file_name;
+
 
 my $file = File::Tail->new(
 		name => $file_name,
 		maxinterval => 1,
 		adjustafter	=> 10,
 );
+
+print "log: $file_name\n";
+print "find word: $word\n" if $word;
+if (@items){
+	print "items: ";
+	for (@items) {
+		print "$_ ";
+	}
+	print "\n";
+}
 
 while (defined(my $line=$file->read)){
 		if ($finding_word){
