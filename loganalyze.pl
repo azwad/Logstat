@@ -73,6 +73,7 @@ sub printout {
 	open my $fh, '<', $log_file;
 
 	while (my $line= <$fh>){
+		chomp $line;
 		if ($finding_word){
 			if (($line =~ /$finding_word/ ) and (@items)){
 				$line = filter($line);
@@ -101,6 +102,7 @@ sub dataoutput {
 	my @outputdata;
 
 	while (my $line= <$fh>){
+		chomp $line;
 		if ($finding_word){
 			if (($line =~ /$finding_word/ ) and (@items)){
 				$line = filterd($line);

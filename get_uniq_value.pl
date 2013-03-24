@@ -1,15 +1,17 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use YAML;
+use YAML::Syck;
 use feature 'say';
 
 my $file = shift @ARGV;
 my $id = shift;
 
+die "usage: get_uniq_value.pl FILE.YAML ID" unless ($file and $id );
+
 say "unification value of id '$id' from $file";
 
-my $yaml = YAML::LoadFile($file);
+my $yaml = YAML::Syck::LoadFile($file);
 
 my @keys;
 for my $var (@$yaml) {
