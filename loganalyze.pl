@@ -54,7 +54,7 @@ if ($select eq 'print') {
 	}
 }else{
 	my @outputdata = dataoutput($log_file);
-	my @format = qw/JSON XML YAML/;
+	my @format = qw/JSON XML YAML DUMP/;
 	my $choice = choice2(@format);	
 
 	my $output_file = type('type output filename');
@@ -184,6 +184,15 @@ package DataFormat {
 		my $outputdata = shift;
 		my $output_file = shift;
 		YAML::DumpFile($output_file, $outputdata);
+	}
+	sub DUMP {
+		use Data::Dumper;
+		my $self = shift;
+		my $outputdata = shift;
+		my $output_file = shift;
+		open my $fh, '>', $output_file;
+		print $fh Dumper($outputdata);
+		close $fh;
 	}
 }
 

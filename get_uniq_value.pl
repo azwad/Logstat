@@ -3,6 +3,9 @@ use strict;
 use warnings;
 use YAML::Syck;
 use feature 'say';
+use lib '/home/toshi/perl/lib';
+use Pause;
+use Data::Dumper;
 
 my $file = shift @ARGV;
 my $id = shift;
@@ -22,11 +25,21 @@ my %hash;
 for (@keys) {
 	$hash{$_} += 1;
 }
-my $outputfile = "${id}_uniq.txt";
+
+my @select = qw/txt dump/;
+my $select = choice2(@select);
+
+my $outputfile = "${id}_uniq.$select";
 open my $fh, '>>', $outputfile or die;
 
-for (sort { $hash{$b} <=> $hash{$a}} keys %hash) {
- 	print $fh "$_\n";
+if ($select eq 'txt'){
+	for (sort { $hash{$b} <=> $hash{$a}} keys %hash) {
+ 		print $fh "$_\n";
+	}
+}else{
+	print $fh Dumper(keys %hash);
 }
+close $fh;
+
 
 
