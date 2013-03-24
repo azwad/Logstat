@@ -179,11 +179,12 @@ package DataFormat {
 		close $fh;
 	}
 	sub YAML {
-		use YAML;
+		use YAML::Syck;
 		my $self = shift;
 		my $outputdata = shift;
 		my $output_file = shift;
-		YAML::DumpFile($output_file, $outputdata);
+		local $YAML::Syck::SingleQuote =1;
+		YAML::Syck::DumpFile($output_file, $outputdata);
 	}
 	sub DUMP {
 		use Data::Dumper;
