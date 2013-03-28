@@ -32,10 +32,18 @@ unless ( -e $database ) {
 		my $sqlstatement = "CREATE TABLE $table ( $id_str )";
 		say $sqlstatement;
 		$dbh->do($sqlstatement);
+
+		$sqlstatement = "CREATE TABLE dbinfo( tables ,ids )";
+		say $sqlstatement;
+		$dbh->do($sqlstatement);
+		$sqlstatement = "INSERT INTO dbinfo ( tables, ids) VALUES( '$table', '$id_str' );";
+		$dbh->do($sqlstatement);
+		$sqlstatement = "INSERT INTO dbinfo ( tables, ids) VALUES( 'dbinfo', 'tables,ids' );";
+		$dbh->do($sqlstatement);
 	}
 }
 
-#pause;
+pause;
 
 my $data_source = "dbi:SQLite:dbname=$database";
 my $dbh = DBI->connect($data_source);
